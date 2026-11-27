@@ -1,30 +1,47 @@
-# 🚀 Euler en el espacio: traer a John Glenn de vuelta
+# 🚀 Euler en el espacio: lanzamiento de un cohete con el método de Euler
 
-Desafío individual de **Métodos Numéricos** (UMSA), en el contexto de la película *Talentos ocultos* (*Hidden Figures*, 2016).
-Continúa el trabajo [“Vuelo oscuro”](https://github.com/AngelSky2/euler-asteroide) sobre la caída de un asteroide.
+Desafío individual de **Métodos Numéricos** (UMSA). Estudiante: **Alejandro Angel Cruz Chacón**.
+Contexto: película *Talentos ocultos* (*Hidden Figures*, 2016), cuando la NASA se preparaba para ir al espacio y a la Luna y Katherine Johnson usó el **método de Euler**.
+Es la continuación del ejercicio 42 ([caída del asteroide](https://github.com/AngelSky2/euler-asteroide)).
 
 **Página interactiva:** https://angelsky2.github.io/euler-en-el-espacio/
 **Documento de respuestas:** [RESPUESTAS.md](RESPUESTAS.md)
 
-## Contenido
-1. Contexto histórico: Katherine Johnson, Friendship 7 (1962) y la escena del método de Euler
-2. Desafío: ¿qué paso h necesita Euler para un error de amerizaje menor a 10 km?
-3. Modelo: gravedad newtoniana más arrastre cuadrático con atmósfera exponencial (4 EDO)
-4. Método de Euler vectorial, con el primer paso calculado
-5. **Parte A:** validación con órbita circular (solución analítica). Euler gana energía y la órbita se abre en espiral.
-6. **Parte B:** reentrada. Alcance, duración, pico de g y error vs h para Euler, Heun y RK4; sensibilidad
-7. **Parte C:** conexión con el asteroide (velocidad terminal local)
-8. Preguntas y respuestas, conclusiones y referencias
+## Desafío
 
-**Resultado principal:** Euler necesita **h ≤ 0.02 s** (≈ 58 600 pasos). Con h = 1 s se equivoca en ≈ 209 km. RK4 logra < 10 km con h = 10 s.
+Se prueba un modelo a escala de cohete con m = 5 kg, empuje E = 100 N y k = 0.05 kg/m (los mismos m y k del ejercicio 42).
+
+```
+m dv/dt = E − m g − k v² ,   v(0) = 0 ,   0 ≤ t ≤ 15 s
+```
+
+1. ¿Qué velocidad tiene a los 15 s? ¿Hay una velocidad máxima?
+2. ¿Qué altura alcanza?
+3. Con Euler, ¿qué paso h garantiza un error menor al 1 %?
+
+## Solución
+
+- **Analítica:** `v(t) = a·tanh(b t)` con `a = √((E−mg)/k) = 31.9218 m/s` y `b = √(k(E−mg))/m = 0.319218 s⁻¹`.
+  - v(15) = 31.9174 m/s (velocidad límite: 31.92 m/s).
+  - y(15) = (a/b)·ln cosh(15b) ≈ 409.5 m.
+- **Euler:** `v_{n+1} = v_n + h(10.19 − 0.01 v_n²)`.
+  - Con h = 1 s: error máximo 2.07 m/s (8.7 %).
+  - Con h = 0.1 s: 0.19 m/s (0.75 %).
+  - **Respuesta: h ≤ 0.1 s.** Euler es de orden 1.
+- **E = 0** reproduce el ejercicio 42: v = −31.32·tanh(0.3132 t).
+- **Masa variable** (q = 0.15 kg/s): ya no hay fórmula, y Euler con h = 0.1 da v(15) = 37.9215 m/s frente a 37.9212 m/s de la referencia RK4.
+
+**Ampliación:** reentrada orbital de la cápsula de John Glenn (4 EDO). Euler necesita h ≤ 0.02 s para un error de amerizaje menor a 10 km.
 
 ## Estructura
 ```
-index.html          página
-js/orbit.js         modelo, Euler/Heun/RK4 vectoriales, órbita circular, reentrada (sin DOM)
-js/app.js           interfaz y gráficos
-js/charts.js        gráficos SVG
-tests/run-tests.mjs pruebas en Node
+index.html            página
+js/launch.js          modelo del lanzamiento, solución analítica, Euler, RK4 (sin DOM)
+js/launch-app.js      interfaz del desafío principal
+js/orbit.js           ampliación: órbita y reentrada (Euler/Heun/RK4 vectoriales)
+js/reentry-app.js     interfaz de la ampliación
+js/charts.js          gráficos SVG
+tests/run-tests.mjs   pruebas (npm test)
 ```
 
 ## Ejecutar
@@ -32,5 +49,4 @@ tests/run-tests.mjs pruebas en Node
 python3 -m http.server 8080   # http://localhost:8080
 npm test
 ```
-
-> Los parámetros son aproximados (cápsula Mercury, órbita circular de 200 km) y no reproducen los datos oficiales del vuelo.
+> Parámetros hipotéticos o aproximados, con fines académicos.

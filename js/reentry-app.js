@@ -1,7 +1,7 @@
 import { DEFAULTS, RE, MU, circularOrbit, reentry, deriv, terminalV, density, METHOD_NAMES } from "./orbit.js";
 import { lineChart } from "./charts.js";
 
-const STUDENT = { nombre: "Angel (completar apellidos)", materia: "Métodos Numéricos", repo: "https://github.com/AngelSky2/euler-en-el-espacio" };
+const STUDENT = { nombre: "Alejandro Angel Cruz Chacón", materia: "Métodos Numéricos", repo: "https://github.com/AngelSky2/euler-en-el-espacio" };
 const $ = (s) => document.querySelector(s);
 const num = (id) => { const r = $("#" + id).value.trim().replace(",", "."); return r === "" ? NaN : Number(r); };
 const fmt = (v, p = 5) => (!Number.isFinite(v) ? "—" : v === 0 ? "0" : Math.abs(v) < 1e-3 || Math.abs(v) >= 1e7 ? v.toExponential(2) : (+v.toPrecision(p)).toLocaleString("es-BO"));
@@ -168,9 +168,9 @@ function renderAnswers(p) {
     ["7. ¿Qué enseña la película sobre el uso de métodos numéricos?",
       `Tres lecciones. (a) Un método simple bien entendido, como Euler, resuelve problemas que parecen imposibles. (b) <b>Hay que verificar</b>: Glenn pidió que una persona confirmara los resultados de la IBM, igual que aquí verificamos Euler contra una solución exacta y contra RK4. (c) Conocer el error y su dependencia de h es tan importante como el resultado: un cálculo sin cota de error no sirve para una decisión de vida o muerte.`],
   ];
-  $("#answers").innerHTML = Q.map(([q, r]) => `<div class="answer"><h4>${q}</h4><p>${r}</p></div>`).join("") +
+  $("#ampAnswers").innerHTML = Q.map(([q, r]) => `<div class="answer"><h4>${q}</h4><p>${r}</p></div>`).join("") +
     `<p class="muted">Las preguntas siguen las sugeridas para el desafío. Si su docente entregó una lista específica, agréguela en <code>js/app.js</code> (función <code>renderAnswers</code>).</p>`;
-  $("#concl").innerHTML = `<ul>
+  $("#ampConcl").innerHTML = `<ul>
     <li>El método de Euler resuelve el sistema de reentrada, pero su error de orden 1 exige pasos muy pequeños: <b>h ≤ ${a.okE ? a.okE.hh : "0,05"} s</b> para un error de amerizaje menor a 10 km.</li>
     <li>La validación con la órbita circular, que tiene solución analítica, muestra el defecto típico de Euler: gana energía y la órbita se abre en espiral.</li>
     <li>Con los parámetros aproximados de la cápsula Mercury, la reentrada dura ≈ ${fmt(a.ref.final.t / 60, 3)} min y recorre ≈ ${km(a.ref.final.range, 0)}, con un pico de ≈ ${fmt(a.ref.maxG, 3)} g. Es del mismo orden que los ≈ 8 g que soportó Glenn.</li>
@@ -182,12 +182,10 @@ function renderAnswers(p) {
 // ---------------------------------------------------------------- init
 ["aAlt", "aH", "aN"].forEach((id) => $("#" + id).addEventListener("input", debounce(renderOrbit)));
 ["bAlt", "bDv", "bH", "bM", "bCdA"].forEach((id) => $("#" + id).addEventListener("input", debounce(renderReentry, 300)));
-$("#studentLine").textContent = `${STUDENT.nombre} · ${STUDENT.materia} · UMSA`;
-$("#footer").innerHTML = `${STUDENT.nombre} · Euler en el espacio · ${STUDENT.materia} · <a href="${STUDENT.repo}">Repositorio</a>`;
 renderFirstStep();
 renderOrbit();
 renderReentry();
 const r = state.answer;
-$("#heroKpis").innerHTML = kpi("Reentrada (referencia)", `${fmt(r.ref.final.t / 60, 3)} min`, `alcance ${km(r.ref.final.range, 0)}`) +
+$("#ampKpis").innerHTML = kpi("Reentrada (referencia)", `${fmt(r.ref.final.t / 60, 3)} min`, `alcance ${km(r.ref.final.range, 0)}`) +
   kpi("Pico de desaceleración", `${fmt(r.ref.maxG, 3)} g`, "Glenn soportó ≈ 8 g") +
   kpi("Paso de Euler necesario", `h ≤ ${r.okE ? r.okE.hh : "0,05"} s`, "para un error < 10 km", "good");

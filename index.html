@@ -3,39 +3,40 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Euler en el espacio · Traer a John Glenn de vuelta</title>
+  <title>Euler en el espacio · Lanzamiento de un cohete (Talentos ocultos)</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 <header class="topbar">
   <div class="brand">🚀 Euler en el espacio</div>
   <nav>
-    <a href="#historia">Historia</a><a href="#desafio">Desafío</a><a href="#modelo">Modelo</a><a href="#euler">Euler</a>
-    <a href="#orbita">A · Órbita</a><a href="#reentrada">B · Reentrada</a><a href="#asteroide">C · Asteroide</a>
-    <a href="#preguntas">Preguntas</a><a href="#conclusiones">Conclusiones</a>
+    <a href="#historia">Película</a><a href="#desafio">Desafío</a><a href="#modelo">Modelo</a><a href="#analitica">Solución analítica</a>
+    <a href="#euler">Euler a mano</a><a href="#simulador">Simulador</a><a href="#masa">Masa variable</a>
+    <a href="#preguntas">Preguntas</a><a href="#conclusiones">Conclusiones</a><a href="#ampliacion">Ampliación</a>
   </nav>
 </header>
 <main>
 <section class="hero">
-  <p class="eyebrow">Métodos Numéricos · Desafío individual “Euler en el espacio” · Continuación de “Vuelo oscuro” (asteroide)</p>
-  <h1>Euler en el espacio: ¿con qué precisión hay que calcular la reentrada para rescatar al astronauta?</h1>
-  <p class="lead">En 1962, antes de las misiones a la Luna, la NASA tenía que traer de vuelta a John Glenn desde la órbita. En la película <i>Talentos ocultos</i> (<i>Hidden Figures</i>, 2016), la matemática <b>Katherine Johnson</b> resuelve el problema con un método “antiguo”: <b>el método de Euler</b>. Aquí repetimos ese cálculo con la misma física del asteroide (gravedad más arrastre del aire), ahora en dos dimensiones y alrededor de la Tierra.</p>
+  <p class="eyebrow">Métodos Numéricos · Desafío individual “Euler en el espacio” · Continuación del ejercicio 42 (caída del asteroide)</p>
+  <h1>Euler en el espacio: el lanzamiento de un cohete resuelto con el método de Euler y su solución analítica</h1>
+  <div class="formula">m · dv/dt = E − m·g − k·v² ,&nbsp;&nbsp; m = 5 kg, E = 100 N, k = 0,05 kg/m, g = 9,81 m/s², v(0) = 0, 0 ≤ t ≤ 15 s</div>
+  <p class="lead">En la película <i>Talentos ocultos</i> (<i>Hidden Figures</i>, 2016), la NASA se prepara para llevar astronautas al espacio y después a la Luna, y la matemática <b>Katherine Johnson</b> recurre al <b>método de Euler</b> para calcular trayectorias que no tienen fórmula. Este desafío toma la ecuación del ejercicio 42 (un objeto que cae frenado por el aire), le agrega el <b>empuje de un motor</b> y la convierte en el despegue de un cohete.</p>
   <div class="kpis" id="heroKpis"></div>
   <p class="muted" id="studentLine"></p>
 </section>
 
 <section id="historia">
-  <h2><span class="num">1</span> Contexto histórico: la película y la carrera hacia la Luna</h2>
+  <h2><span class="num">1</span> Contexto: la película y la carrera hacia la Luna</h2>
   <div class="grid2">
     <div>
-      <p><b>La película.</b> <i>Hidden Figures</i> (Theodore Melfi, 2016) se estrenó en Latinoamérica como <i>Talentos ocultos</i> y en España como <i>Figuras ocultas</i>. Cuenta la historia real de Katherine Johnson, Dorothy Vaughan y Mary Jackson, matemáticas afroamericanas que trabajaron como <b>“computadoras humanas”</b> en el centro Langley de la NASA durante la carrera espacial.</p>
-      <p><b>La misión.</b> El 20 de febrero de 1962, John Glenn dio <b>3 vueltas a la Tierra</b> en la cápsula <b>Friendship 7</b> (programa Mercury). El reto era calcular <b>cuándo encender los retrocohetes</b> para que la cápsula dejara la órbita, sobreviviera a la reentrada y cayera en el océano cerca de los barcos de rescate.</p>
-      <p><b>La escena de Euler.</b> En la película nadie sabe cómo pasar de la órbita elíptica a la trayectoria de caída, porque no existe una fórmula cerrada. Katherine propone usar el <b>método de Euler</b>: avanzar la solución paso a paso con la pendiente conocida. “Es matemática antigua”, dice, “pero funciona numéricamente”.</p>
+      <p><b>La película.</b> <i>Hidden Figures</i> (Theodore Melfi, 2016) se estrenó en Latinoamérica como <i>Talentos ocultos</i>. Cuenta la historia real de <b>Katherine Johnson</b>, <b>Dorothy Vaughan</b> y <b>Mary Jackson</b>, matemáticas afroamericanas que trabajaron como “computadoras humanas” en el centro Langley de la NASA en los años 60.</p>
+      <p><b>La época.</b> Estados Unidos y la Unión Soviética competían por el espacio. En 1961 Alan Shepard viajó al espacio en un cohete <b>Mercury-Redstone</b> y Kennedy anunció la meta de llegar a la Luna. En 1962 John Glenn orbitó la Tierra con un cohete <b>Atlas</b>. En 1969 el Apolo 11 llegó a la Luna con trayectorias en las que también trabajó Johnson.</p>
+      <p><b>La escena de Euler.</b> Ante el pizarrón, nadie encuentra una fórmula para la trayectoria. Katherine propone usar un método “antiguo”, el <b>método de Euler</b>: no buscar la fórmula, sino <b>avanzar paso a paso</b> usando la derivada, que sí se conoce por las leyes de Newton.</p>
     </div>
     <div>
-      <p><b>“Get the girl to check the numbers”.</b> Antes del vuelo, la NASA calculó la trayectoria con una computadora electrónica nueva, la IBM 7090. Glenn desconfiaba y pidió que Katherine Johnson verificara los números a mano: si ella decía que estaban bien, él estaba listo para volar. Esta parte es histórica, no solo cinematográfica.</p>
-      <p><b>Hacia la Luna.</b> Johnson calculó después trayectorias del programa Apollo, incluida la del <b>Apollo 11</b> (1969), y ventanas de lanzamiento y de retorno de emergencia. En 2015 recibió la Medalla Presidencial de la Libertad.</p>
-      <div class="warn-box"><b>Nota.</b> La película dramatiza los hechos. Los cálculos reales usaban varias técnicas de integración numérica y la ecuación de Euler aparece como símbolo del método paso a paso. Los parámetros de este desafío son aproximados (cápsula Mercury, órbita circular de 200 km) y no reproducen los datos oficiales del vuelo.</div>
+      <p><b>Por qué Euler sirve en un lanzamiento.</b> Durante el ascenso actúan a la vez el <b>empuje</b> del motor, el <b>peso</b> y la <b>resistencia del aire</b>, y además el cohete <b>pierde masa</b> al quemar combustible. La ecuación de movimiento es fácil de escribir, pero en general no se puede resolver con una fórmula. Euler la resuelve con aritmética repetida, que era justo lo que hacían las computadoras humanas y después la IBM 7090.</p>
+      <p><b>Verificar.</b> Glenn pidió que Katherine revisara a mano los cálculos de la computadora electrónica antes de volar. En este desafío hacemos lo mismo: comprobamos Euler contra una <b>solución analítica exacta</b>.</p>
+      <div class="warn-box"><b>Nota.</b> La película dramatiza los hechos. El cohete del desafío es un <b>modelo a escala hipotético</b> de 5 kg que usa los mismos m y k del ejercicio 42, para poder comparar. El preset “Mercury-Redstone” usa valores <b>aproximados</b> que no son los oficiales.</div>
     </div>
   </div>
 </section>
@@ -44,24 +45,19 @@
   <h2><span class="num">2</span> El desafío</h2>
   <div class="grid2">
     <div class="note">
-      <h3 style="margin-top:0">Pregunta</h3>
-      <p><b>Si se calcula la reentrada de la cápsula con el método de Euler, ¿qué tamaño de paso h hace falta para que el punto de amerizaje tenga un error menor a 10 km?</b> Un buque de rescate puede cubrir esa distancia en menos de media hora.</p>
-      <h3>Metas cuantificables</h3>
-      <ul>
-        <li>Validar Euler contra una <b>solución analítica</b> (órbita circular) y medir su error.</li>
-        <li>Estimar el <b>alcance</b> (km desde el encendido de los retrocohetes), la duración de la reentrada y la <b>desaceleración máxima en g</b>.</li>
-        <li>Encontrar el h máximo de Euler con error de amerizaje &lt; 10 km y compararlo con Heun y RK4.</li>
-      </ul>
+      <h3 style="margin-top:0">Planteamiento</h3>
+      <p>Los ingenieros de Langley prueban un <b>modelo a escala</b> de cohete de 5 kg con un motor de 100 N de empuje. Antes del lanzamiento quieren saber:</p>
+      <ol>
+        <li>¿Qué velocidad tendrá el cohete a los 15 s? ¿Existe una velocidad máxima?</li>
+        <li>¿Qué altura alcanzará en ese tiempo?</li>
+        <li>Si el cálculo se hace a mano con Euler, como en la película, <b>¿qué tamaño de paso h garantiza un error menor al 1 %?</b></li>
+      </ol>
     </div>
     <div>
-      <h3>Continuación del problema del asteroide</h3>
-      <p>En “Vuelo oscuro” resolvimos <b>m dv/dt = −mg + kv²</b>: un fragmento cae y el aire lo frena. La cápsula de Glenn es el mismo problema con tres diferencias:</p>
-      <ol>
-        <li>La gravedad <b>depende de la distancia</b> al centro de la Tierra: g = μ/r².</li>
-        <li>El movimiento es <b>bidimensional</b>: la cápsula va a 7,8 km/s casi horizontal.</li>
-        <li>La densidad del aire <b>cambia con la altura</b>: ρ = ρ₀e<sup>−h/H</sup>, así que k ya no es constante.</li>
-      </ol>
-      <p>Estas diferencias hacen que <b>no exista solución analítica</b>. Por eso la NASA necesitaba un método numérico como Euler.</p>
+      <h3>Relación con el ejercicio 42 (asteroide)</h3>
+      <p>El ejercicio 42 era <b>m dv/dt = −mg + kv²</b>: un objeto que cae y el aire lo frena. El cohete agrega una fuerza más, el <b>empuje E</b>, y ahora el aire frena la subida:</p>
+      <div class="formula sm">m dv/dt = <span style="color:var(--c3)">E</span> (empuje, ↑) − <span style="color:var(--bad)">mg</span> (peso, ↓) − <span style="color:var(--good)">kv²</span> (aire, ↓ mientras sube)</div>
+      <p>Si se apaga el motor (E = 0) se recupera <b>exactamente el ejercicio 42</b>. Puede comprobarlo en el simulador con el botón “E = 0”.</p>
     </div>
   </div>
 </section>
@@ -70,105 +66,140 @@
   <h2><span class="num">3</span> Modelo matemático</h2>
   <div class="grid2">
     <div>
-      <div class="formula">d<b>r</b>/dt = <b>v</b> ,&nbsp;&nbsp; d<b>v</b>/dt = −μ <b>r</b>/|<b>r</b>|³ − (ρ(h) C<sub>d</sub> A / 2m)·|<b>v</b>|·<b>v</b></div>
-      <div class="formula sm">ρ(h) = ρ₀ e<sup>−h/H</sup> ,&nbsp; h = |<b>r</b>| − R<sub>T</sub> ,&nbsp; condición inicial: órbita circular y luego retrofrenado Δv</div>
-      <p>Es un sistema de <b>4 EDO de primer orden</b> para el estado Y = (x, y, v<sub>x</sub>, v<sub>y</sub>). El primer término es la gravedad de Newton y el segundo el arrastre cuadrático, el mismo kv² del asteroide con k = ½ρC<sub>d</sub>A variable.</p>
+      <table class="tbl left">
+        <thead><tr><th>Símbolo</th><th>Significado</th><th>Unidades</th><th>Valor</th></tr></thead>
+        <tbody>
+          <tr><td>t</td><td>tiempo desde el despegue (variable independiente)</td><td>s</td><td>0 – 15</td></tr>
+          <tr><td>v(t)</td><td>velocidad vertical (positiva hacia arriba)</td><td>m/s</td><td>v(0) = 0</td></tr>
+          <tr><td>m</td><td>masa del cohete (constante en el modelo base)</td><td>kg</td><td>5</td></tr>
+          <tr><td>E</td><td>empuje del motor</td><td>N</td><td>100</td></tr>
+          <tr><td>g</td><td>gravedad</td><td>m/s²</td><td>9,81</td></tr>
+          <tr><td>k</td><td>coef. de arrastre k = ½ρC<sub>d</sub>A</td><td>kg/m</td><td>0,05</td></tr>
+        </tbody>
+      </table>
       <h3>Supuestos</h3>
       <ul>
-        <li>Movimiento en el plano de la órbita, Tierra esférica y sin rotación.</li>
-        <li>Atmósfera exponencial isoterma y sin viento.</li>
-        <li>Retrofrenado instantáneo (en la realidad duró unos 22 s) y sin sustentación aerodinámica.</li>
-        <li>La simulación termina al abrir el paracaídas principal (≈ 3 km de altura).</li>
+        <li>Ascenso vertical, sin viento y g constante.</li>
+        <li>Densidad del aire constante (k constante), razonable para alturas de pocos cientos de metros.</li>
+        <li>Masa constante (motor de combustible ligero frente a la masa total). La sección 7 quita este supuesto.</li>
+        <li>Arrastre cuadrático, como en el ejercicio 42.</li>
       </ul>
     </div>
     <div>
-      <table class="tbl left">
-        <thead><tr><th>Parámetro</th><th>Significado</th><th>Valor</th></tr></thead>
-        <tbody>
-          <tr><td>μ</td><td>G·M de la Tierra</td><td>3,986·10¹⁴ m³/s²</td></tr>
-          <tr><td>R<sub>T</sub></td><td>radio terrestre medio</td><td>6 371 km</td></tr>
-          <tr><td>h₀</td><td>altitud de la órbita (aprox. 159–265 km en el vuelo real)</td><td>200 km</td></tr>
-          <tr><td>v₀ = √(μ/r₀)</td><td>velocidad orbital circular</td><td>≈ 7 784 m/s</td></tr>
-          <tr><td>Δv</td><td>frenado de los retrocohetes</td><td>150 m/s</td></tr>
-          <tr><td>m</td><td>masa de la cápsula</td><td>1 355 kg</td></tr>
-          <tr><td>A, C<sub>d</sub></td><td>área frontal y coef. de arrastre</td><td>2,8 m², 1,5</td></tr>
-          <tr><td>ρ₀, H</td><td>densidad al nivel del mar, altura de escala</td><td>1,225 kg/m³, 7,2 km</td></tr>
-        </tbody>
-      </table>
-      <p class="muted">Todos los parámetros se pueden modificar en las secciones A y B.</p>
+      <div class="formula">dv/dt = f(t, v) = E/m − g − (k/m)·v²</div>
+      <p>Con los datos: <b>dv/dt = 20 − 9,81 − 0,01·v² = 10,19 − 0,01·v²</b> [m/s²].</p>
+      <p>Al despegar (v = 0) la aceleración neta es 10,19 m/s², casi 1 g. A medida que sube más rápido crece el arrastre, hasta que <b>empuje = peso + arrastre</b>. Entonces la aceleración se anula y el cohete alcanza su <b>velocidad límite</b>:</p>
+      <div class="formula">E − mg = k v<sub>L</sub>² ⇒ v<sub>L</sub> = √((E − mg)/k) = √(50,95/0,05) = √1019 ≈ <b>31,92 m/s</b></div>
+      <p class="muted">Es la misma idea que la velocidad terminal del asteroide (31,32 m/s), pero hacia arriba.</p>
+    </div>
+  </div>
+</section>
+
+<section id="analitica">
+  <h2><span class="num">4</span> Solución analítica</h2>
+  <div class="grid2">
+    <div>
+<pre>m dv/dt = (E − mg) − k v²        sea  N = E − mg &gt; 0
+
+dv / (N − k v²) = dt / m
+
+con  a = √(N/k)  (velocidad límite)  y  b = √(kN)/m :
+
+  dv / (a² − v²) = (k/m) dt
+  (1/a)·artanh(v/a) = (k/m) t + C ,   v(0) = 0 ⇒ C = 0
+
+  <b>v(t) = a · tanh(b t)</b>
+
+Datos: a = √1019 = 31,9218 m/s
+       b = √(0,05·50,95)/5 = 0,319218 s⁻¹
+
+  <b>v(t) = 31,9218 · tanh(0,319218 t)</b>   [m/s]</pre>
+      <p><b>Altura:</b> y(t) = ∫v dt = (a/b)·ln cosh(b t) = 100·ln cosh(0,3192 t) m. En 15 s: <b>y(15) ≈ 409,5 m</b>.</p>
+    </div>
+    <div>
+      <h3>Verificación por sustitución</h3>
+<pre>v = a tanh(u),   u = b t
+
+Lado izquierdo:  m dv/dt = m·a·b·sech²(u) = N·sech²(u)
+                 (porque a·b = √(N/k)·√(kN)/m = N/m)
+
+Lado derecho:    N − k v² = N − k a² tanh²(u)
+                          = N − N tanh²(u)
+                          = N (1 − tanh²u) = N sech²(u)   ✔
+
+Condición inicial: v(0) = a·tanh(0) = 0                   ✔
+Para t → ∞: tanh → 1 ⇒ v → a = 31,92 m/s (velocidad límite) ✔</pre>
+      <p><b>Caso general:</b> si E &lt; mg (el motor no levanta el cohete) o E = 0, el signo se invierte: v = −a·tanh(bt) con a = √((mg − E)/k). Con E = 0 queda <b>v = −31,32·tanh(0,3132 t)</b>, la solución del ejercicio 42.</p>
     </div>
   </div>
 </section>
 
 <section id="euler">
-  <h2><span class="num">4</span> El método de Euler (vectorial)</h2>
+  <h2><span class="num">5</span> Método de Euler: primeros pasos a mano (h = 1 s)</h2>
   <div class="grid2">
     <div>
-      <div class="formula">Y<sub>n+1</sub> = Y<sub>n</sub> + h · F(t<sub>n</sub>, Y<sub>n</sub>)</div>
-<pre>x_{n+1}  = x_n  + h · vx_n
-y_{n+1}  = y_n  + h · vy_n
-vx_{n+1} = vx_n + h · ax(x_n, y_n, vx_n, vy_n)
-vy_{n+1} = vy_n + h · ay(x_n, y_n, vx_n, vy_n)</pre>
-      <p>Es la idea de Katherine Johnson: si conozco la posición y la velocidad <b>ahora</b>, y las leyes de Newton me dan la aceleración, puedo estimar dónde estará la cápsula <b>un instante después</b>. Repitiendo ese paso miles de veces se obtiene la trayectoria.</p>
+      <div class="formula">v<sub>n+1</sub> = v<sub>n</sub> + h·f(t<sub>n</sub>, v<sub>n</sub>) = v<sub>n</sub> + h·(10,19 − 0,01·v<sub>n</sub>²)</div>
+<pre>n=0: v₀ = 0
+     v₁ = 0 + 1·(10,19 − 0,01·0²)            = 10,190000 m/s
+n=1: v₂ = 10,19 + 1·(10,19 − 0,01·103,8361)  = 19,341639 m/s
+n=2: v₃ = 19,341639 + (10,19 − 0,01·374,0990)
+        = 25,790649 m/s
+n=3: v₄ = 25,790649 + (10,19 − 0,01·665,1576)
+        = 29,329073 m/s
+ …
+n=14: v₁₅ = 31,921671 m/s</pre>
     </div>
     <div>
-      <h3>Primer paso, calculado en vivo (h = 1 s, tras el retrofrenado)</h3>
-      <div id="firstStep"></div>
+      <p>Exactas: v(1) = 9,8574 · v(2) = 17,9986 · v(3) = 23,7252 · v(4) = 27,3138 m/s.</p>
+      <p><b>¿Por qué Euler sobreestima la velocidad?</b> En cada paso usa la aceleración del <b>inicio</b> del intervalo, cuando el cohete va más lento y el aire lo frena menos. Por eso supone más aceleración de la real. El error máximo con h = 1 s es ≈ 2,07 m/s (8,7 %) cerca de t = 3 s. Después ambas soluciones se acercan a la velocidad límite y el error casi desaparece.</p>
+      <p>Es el mismo comportamiento que en el ejercicio 42, reflejado hacia arriba. Euler es de <b>orden 1</b>: al dividir h entre 2, el error se divide aproximadamente entre 2.</p>
     </div>
   </div>
 </section>
 
-<section id="orbita">
-  <h2><span class="num">A</span> Validación: órbita circular sin atmósfera (tiene solución analítica)</h2>
-  <p>Sin atmósfera ni retrofrenado la solución exacta es un círculo: <b>x(t) = r₀ cos(ωt), y(t) = r₀ sin(ωt)</b>, con ω = √(μ/r₀³) y periodo T = 2π/ω. Comparamos Euler con esa solución durante una o varias vueltas.</p>
+<section id="simulador">
+  <h2><span class="num">6</span> Simulador del lanzamiento</h2>
+  <div class="btnrow">
+    <button class="primary" data-preset="modelo">Modelo a escala (desafío)</button>
+    <button data-preset="ej42">E = 0 → ejercicio 42 (caída)</button>
+    <button data-preset="redstone">Mercury-Redstone (aprox., masa constante)</button>
+    <button data-preset="gordo">Paso grueso h = 2 s</button>
+  </div>
   <div class="controls">
-    <label>Altitud h₀ <input id="aAlt" type="number" value="200" min="100" max="2000"><span class="unit">km</span></label>
-    <label>Paso h <input id="aH" type="number" value="10" min="0.1" max="120" step="1"><span class="unit">s</span></label>
-    <label>Número de vueltas <input id="aN" type="number" value="1" min="1" max="5" step="1"><span class="unit">órbitas</span></label>
+    <label>E · empuje <input id="E" type="number" value="100" min="0" step="5"><span class="unit">N</span></label>
+    <label>m · masa inicial <input id="m" type="number" value="5" min="0.1" step="0.5"><span class="unit">kg</span></label>
+    <label>q · consumo de combustible <input id="q" type="number" value="0" min="0" step="0.05"><span class="unit">kg/s (0 = masa constante)</span></label>
+    <label>k · arrastre <input id="k" type="number" value="0.05" min="0.001" step="0.005"><span class="unit">kg/m</span></label>
+    <label>g · gravedad <input id="g" type="number" value="9.81" step="0.01"><span class="unit">m/s²</span></label>
+    <label>T · tiempo final <input id="T" type="number" value="15" step="1"><span class="unit">s</span></label>
+    <label>h · paso de Euler <input id="h" type="number" value="1" step="0.1"><span class="unit">s</span></label>
+    <label>h₂ · paso de comparación <input id="h2" type="number" value="0.1" step="0.05"><span class="unit">s</span></label>
   </div>
-  <div id="aVal" class="alert"></div>
+  <div id="valBox" class="alert"></div>
+  <div class="kpis" id="kpis"></div>
+  <h3>v(t): solución de referencia vs Euler</h3>
+  <div id="chartV"></div>
   <div class="grid2">
-    <div><div id="orbitChart"></div></div>
-    <div><div id="aTable"></div><div id="aInterp" class="note" style="margin-top:12px"></div></div>
+    <div><h3>Error absoluto (escala log)</h3><div id="chartE"></div></div>
+    <div><h3>Comparación de pasos (respuesta a la pregunta 3)</h3><div id="cmp"></div></div>
   </div>
+  <h3>Tabla de iteraciones (h)</h3>
+  <div class="scroll" id="table"></div>
 </section>
 
-<section id="reentrada">
-  <h2><span class="num">B</span> Reentrada de la cápsula: Euler vs referencia</h2>
-  <p>Referencia: RK4 con h = 0,05 s (convergido: cambiar el paso altera el resultado en menos de 1 m).</p>
-  <div class="controls">
-    <label>Altitud h₀ <input id="bAlt" type="number" value="200" min="120" max="500"><span class="unit">km</span></label>
-    <label>Retrofrenado Δv <input id="bDv" type="number" value="150" min="60" max="400" step="5"><span class="unit">m/s</span></label>
-    <label>Paso de Euler h <input id="bH" type="number" value="1" min="0.02" max="15" step="0.5"><span class="unit">s</span></label>
-    <label>Masa m <input id="bM" type="number" value="1355" min="100" step="10"><span class="unit">kg</span></label>
-    <label>Cd·A (arrastre × área) <input id="bCdA" type="number" value="4.2" min="0.1" step="0.1"><span class="unit">m²</span></label>
-  </div>
-  <div id="bVal" class="alert"></div>
-  <div class="kpis" id="bKpis"></div>
-  <div class="grid2">
-    <div><h3>Altitud vs distancia recorrida</h3><div id="chartAltRange"></div></div>
-    <div><h3>Desaceleración (g) y velocidad vs tiempo</h3><div id="chartG"></div></div>
-  </div>
-  <h3>Error del punto de amerizaje según el paso h</h3>
-  <div class="grid2">
-    <div class="scroll-x" id="bTable"></div>
-    <div id="bAnswer"></div>
-  </div>
-  <h3>Sensibilidad: ¿qué pasa si el retrofrenado no es exacto?</h3>
-  <div id="bSens"></div>
-</section>
-
-<section id="asteroide">
-  <h2><span class="num">C</span> Conexión con el asteroide: velocidad terminal</h2>
+<section id="masa">
+  <h2><span class="num">7</span> Cuando no hay fórmula: cohete que quema combustible</h2>
   <div class="grid2">
     <div>
-      <p>En la parte baja de la atmósfera la cápsula ya perdió casi toda su velocidad orbital y cae casi vertical. Entonces vuelve a valer la ecuación del fragmento de asteroide:</p>
-      <div class="formula">m dv/dt = −mg + k(h)·v² ,&nbsp; k(h) = ½ρ(h)C<sub>d</sub>A &nbsp;⇒&nbsp; v<sub>T</sub>(h) = √(2mg / ρ(h)C<sub>d</sub>A)</div>
-      <div id="cTable"></div>
+      <p>Un cohete real <b>pierde masa</b>: m(t) = m₀ − q·t. La ecuación pasa a ser</p>
+      <div class="formula">dv/dt = E/m(t) − g − (k/m(t))·v²</div>
+      <p>y ya <b>no tiene una solución analítica sencilla</b>. Esta es la situación de la película: la ecuación se conoce, pero la fórmula no existe. Euler la resuelve igual, paso a paso. Como referencia se usa RK4 con un paso muy fino.</p>
+      <p>El modelo a escala quema q = 0,15 kg/s de combustible (2,25 kg en 15 s):</p>
+      <div id="massTable"></div>
     </div>
     <div>
-      <div id="cChart"></div>
-      <p class="muted">La línea discontinua es la velocidad terminal local v<sub>T</sub>(h). Por debajo de unos 15 km la velocidad simulada se pega a v<sub>T</sub>(h), igual que el fragmento del asteroide se pegaba a sus 31 m/s.</p>
+      <div id="massChart"></div>
+      <p class="muted">Al aligerarse, el cohete sigue acelerando y supera la velocidad límite de masa constante, porque v<sub>L</sub> = √((E − m g)/k) crece cuando m disminuye.</p>
     </div>
   </div>
 </section>
@@ -181,17 +212,74 @@ vy_{n+1} = vy_n + h · ay(x_n, y_n, vx_n, vy_n)</pre>
 <section id="conclusiones">
   <h2><span class="num">✓</span> Conclusiones</h2>
   <div id="concl"></div>
-  <h3>Referencias</h3>
+</section>
+
+<section id="ampliacion">
+  <h2><span class="num">+</span> Ampliación: el regreso de la cápsula (reentrada orbital)</h2>
+  <p>Después del lanzamiento queda el otro gran problema de la película: <b>traer de vuelta a John Glenn</b>. La física es la misma (gravedad + arrastre kv²), pero en dos dimensiones, con gravedad variable y densidad del aire exponencial. Es un sistema de 4 EDO que se resuelve con Euler, Heun y RK4.</p>
+  <div class="kpis" id="ampKpis"></div>
+  <details>
+    <summary>Modelo de la reentrada</summary>
+    <div class="formula sm">d<b>r</b>/dt = <b>v</b> ,&nbsp; d<b>v</b>/dt = −μ<b>r</b>/|<b>r</b>|³ − (ρ(h)C<sub>d</sub>A/2m)|<b>v</b>|<b>v</b> ,&nbsp; ρ(h) = ρ₀e<sup>−h/H</sup></div>
+    <p class="muted">Órbita circular de 200 km, retrofrenado Δv = 150 m/s, cápsula Mercury aproximada (m = 1 355 kg, C<sub>d</sub>A = 4,2 m²). Tierra esférica sin rotación. La simulación termina al abrir el paracaídas a 3 km.</p>
+    <h3>Primer paso de Euler (h = 1 s)</h3>
+    <div id="firstStep"></div>
+  </details>
+
+  <h3>A · Validación con la órbita circular (solución analítica)</h3>
+  <div class="controls">
+    <label>Altitud h₀ <input id="aAlt" type="number" value="200" min="100" max="2000"><span class="unit">km</span></label>
+    <label>Paso h <input id="aH" type="number" value="10" min="0.1" max="120" step="1"><span class="unit">s</span></label>
+    <label>Número de vueltas <input id="aN" type="number" value="1" min="1" max="5" step="1"><span class="unit">órbitas</span></label>
+  </div>
+  <div id="aVal" class="alert"></div>
+  <div class="grid2">
+    <div><div id="orbitChart"></div></div>
+    <div><div id="aTable"></div><div id="aInterp" class="note" style="margin-top:12px"></div></div>
+  </div>
+
+  <h3>B · Reentrada: ¿qué paso necesita Euler para que el error de amerizaje sea &lt; 10 km?</h3>
+  <div class="controls">
+    <label>Altitud h₀ <input id="bAlt" type="number" value="200" min="120" max="500"><span class="unit">km</span></label>
+    <label>Retrofrenado Δv <input id="bDv" type="number" value="150" min="60" max="400" step="5"><span class="unit">m/s</span></label>
+    <label>Paso de Euler h <input id="bH" type="number" value="1" min="0.02" max="15" step="0.5"><span class="unit">s</span></label>
+    <label>Masa m <input id="bM" type="number" value="1355" min="100" step="10"><span class="unit">kg</span></label>
+    <label>Cd·A (arrastre × área) <input id="bCdA" type="number" value="4.2" min="0.1" step="0.1"><span class="unit">m²</span></label>
+  </div>
+  <div id="bVal" class="alert"></div>
+  <div class="kpis" id="bKpis"></div>
+  <div class="grid2">
+    <div><h3>Altitud vs distancia</h3><div id="chartAltRange"></div></div>
+    <div><h3>Desaceleración (g) y velocidad</h3><div id="chartG"></div></div>
+  </div>
+  <div class="grid2">
+    <div class="scroll-x" id="bTable"></div>
+    <div id="bAnswer"></div>
+  </div>
+  <div id="bSens"></div>
+
+  <h3>C · Velocidad terminal de la cápsula (como el asteroide)</h3>
+  <div class="grid2"><div id="cTable"></div><div><div id="cChart"></div></div></div>
+  <details>
+    <summary>Preguntas y conclusiones de la ampliación</summary>
+    <div id="ampAnswers"></div>
+    <div id="ampConcl"></div>
+  </details>
+</section>
+
+<section>
+  <h2><span class="num">📚</span> Referencias</h2>
   <ul>
     <li>Melfi, T. (Director). (2016). <i>Hidden Figures</i> [Talentos ocultos]. 20th Century Fox.</li>
-    <li>Shetterly, M. L. (2016). <i>Hidden Figures: The American Dream and the Untold Story of the Black Women Mathematicians Who Helped Win the Space Race</i>. William Morrow.</li>
-    <li>NASA. Katherine Johnson Biography. nasa.gov · NASA History Office: <i>Results of the First United States Manned Orbital Space Flight, February 20, 1962</i>.</li>
-    <li>Burden, R. L., &amp; Faires, J. D. (2016). <i>Análisis numérico</i> (10.ª ed.). Cengage. Cap. 5 (métodos de Euler y Runge-Kutta para sistemas).</li>
-    <li>Curtis, H. D. (2014). <i>Orbital Mechanics for Engineering Students</i> (3rd ed.). Butterworth-Heinemann.</li>
+    <li>Shetterly, M. L. (2016). <i>Hidden Figures</i>. William Morrow.</li>
+    <li>NASA. <i>Katherine Johnson Biography</i>; <i>Mercury-Redstone</i> y <i>Friendship 7</i>, NASA History Office.</li>
+    <li>Burden, R. L., &amp; Faires, J. D. (2016). <i>Análisis numérico</i> (10.ª ed.). Cengage. Cap. 5.</li>
+    <li>Chapra, S. C., &amp; Canale, R. P. (2015). <i>Métodos numéricos para ingenieros</i> (7.ª ed.). McGraw-Hill.</li>
   </ul>
 </section>
 </main>
 <footer id="footer"></footer>
-<script type="module" src="js/app.js"></script>
+<script type="module" src="js/launch-app.js"></script>
+<script type="module" src="js/reentry-app.js"></script>
 </body>
 </html>
