@@ -12,24 +12,25 @@ Es la continuación del ejercicio 42 ([caída del asteroide](https://github.com/
 Se prueba un modelo a escala de cohete con m = 5 kg, empuje E = 100 N y k = 0.05 kg/m (los mismos m y k del ejercicio 42).
 
 ```
-m dv/dt = E − m g − k v² ,   v(0) = 0 ,   0 ≤ t ≤ 15 s
+m dv/dt = E − m g − k v² ,   v(0) = 0 ,   0 ≤ t ≤ 20 s
 ```
 
-1. ¿Qué velocidad tiene a los 15 s? ¿Hay una velocidad máxima?
+1. ¿Qué velocidad tiene durante los 20 s? ¿Hay una velocidad máxima?
 2. ¿Qué altura alcanza?
 3. Con Euler, ¿qué paso h garantiza un error menor al 1 %?
 
 ## Solución
 
 - **Analítica:** `v(t) = a·tanh(b t)` con `a = √((E−mg)/k) = 31.9218 m/s` y `b = √(k(E−mg))/m = 0.319218 s⁻¹`.
-  - v(15) = 31.9174 m/s (velocidad límite: 31.92 m/s).
-  - y(15) = (a/b)·ln cosh(15b) ≈ 409.5 m.
+  - v(20) = 31.9216 m/s (velocidad límite: 31.92 m/s).
+  - y(20) = (a/b)·ln cosh(20b) ≈ 569.1 m (Euler con h = 1: 561.9 m).
+  - La página explica paso a paso la velocidad y la altura en cada segundo (sección 5b).
 - **Euler:** `v_{n+1} = v_n + h(10.19 − 0.01 v_n²)`.
   - Con h = 1 s: error máximo 2.07 m/s (8.7 %).
   - Con h = 0.1 s: 0.19 m/s (0.75 %).
   - **Respuesta: h ≤ 0.1 s.** Euler es de orden 1.
 - **E = 0** reproduce el ejercicio 42: v = −31.32·tanh(0.3132 t).
-- **Masa variable** (q = 0.15 kg/s): ya no hay fórmula, y Euler con h = 0.1 da v(15) = 37.9215 m/s frente a 37.9212 m/s de la referencia RK4.
+- **Masa variable** (q = 0.15 kg/s): ya no hay fórmula, y Euler sigue funcionando sin fórmula (sección 7 de la página).
 
 **Ampliación:** reentrada orbital de la cápsula de John Glenn (4 EDO). Euler necesita h ≤ 0.02 s para un error de amerizaje menor a 10 km.
 

@@ -11,7 +11,7 @@
   <div class="brand">🚀 Euler en el espacio</div>
   <nav>
     <a href="#historia">Película</a><a href="#desafio">Desafío</a><a href="#modelo">Modelo</a><a href="#analitica">Solución analítica</a>
-    <a href="#euler">Euler a mano</a><a href="#simulador">Simulador</a><a href="#masa">Masa variable</a>
+    <a href="#euler">Euler a mano</a><a href="#pasos">Paso a paso 0–20 s</a><a href="#simulador">Simulador</a><a href="#masa">Masa variable</a>
     <a href="#preguntas">Preguntas</a><a href="#conclusiones">Conclusiones</a><a href="#ampliacion">Ampliación</a>
   </nav>
 </header>
@@ -19,7 +19,7 @@
 <section class="hero">
   <p class="eyebrow">Métodos Numéricos · Desafío individual “Euler en el espacio” · Continuación del ejercicio 42 (caída del asteroide)</p>
   <h1>Euler en el espacio: el lanzamiento de un cohete resuelto con el método de Euler y su solución analítica</h1>
-  <div class="formula">m · dv/dt = E − m·g − k·v² ,&nbsp;&nbsp; m = 5 kg, E = 100 N, k = 0,05 kg/m, g = 9,81 m/s², v(0) = 0, 0 ≤ t ≤ 15 s</div>
+  <div class="formula">m · dv/dt = E − m·g − k·v² ,&nbsp;&nbsp; m = 5 kg, E = 100 N, k = 0,05 kg/m, g = 9,81 m/s², v(0) = 0, 0 ≤ t ≤ 20 s</div>
   <p class="lead">En la película <i>Talentos ocultos</i> (<i>Hidden Figures</i>, 2016), la NASA se prepara para llevar astronautas al espacio y después a la Luna, y la matemática <b>Katherine Johnson</b> recurre al <b>método de Euler</b> para calcular trayectorias que no tienen fórmula. Este desafío toma la ecuación del ejercicio 42 (un objeto que cae frenado por el aire), le agrega el <b>empuje de un motor</b> y la convierte en el despegue de un cohete.</p>
   <div class="kpis" id="heroKpis"></div>
   <p class="muted" id="studentLine"></p>
@@ -48,8 +48,8 @@
       <h3 style="margin-top:0">Planteamiento</h3>
       <p>Los ingenieros de Langley prueban un <b>modelo a escala</b> de cohete de 5 kg con un motor de 100 N de empuje. Antes del lanzamiento quieren saber:</p>
       <ol>
-        <li>¿Qué velocidad tendrá el cohete a los 15 s? ¿Existe una velocidad máxima?</li>
-        <li>¿Qué altura alcanzará en ese tiempo?</li>
+        <li>¿Qué velocidad tendrá el cohete durante los 20 s de la simulación? ¿Existe una velocidad máxima?</li>
+        <li>¿Qué altura alcanzará a los 20 s?</li>
         <li>Si el cálculo se hace a mano con Euler, como en la película, <b>¿qué tamaño de paso h garantiza un error menor al 1 %?</b></li>
       </ol>
     </div>
@@ -69,7 +69,7 @@
       <table class="tbl left">
         <thead><tr><th>Símbolo</th><th>Significado</th><th>Unidades</th><th>Valor</th></tr></thead>
         <tbody>
-          <tr><td>t</td><td>tiempo desde el despegue (variable independiente)</td><td>s</td><td>0 – 15</td></tr>
+          <tr><td>t</td><td>tiempo desde el despegue (variable independiente)</td><td>s</td><td>0 – 20</td></tr>
           <tr><td>v(t)</td><td>velocidad vertical (positiva hacia arriba)</td><td>m/s</td><td>v(0) = 0</td></tr>
           <tr><td>m</td><td>masa del cohete (constante en el modelo base)</td><td>kg</td><td>5</td></tr>
           <tr><td>E</td><td>empuje del motor</td><td>N</td><td>100</td></tr>
@@ -114,7 +114,7 @@ Datos: a = √1019 = 31,9218 m/s
        b = √(0,05·50,95)/5 = 0,319218 s⁻¹
 
   <b>v(t) = 31,9218 · tanh(0,319218 t)</b>   [m/s]</pre>
-      <p><b>Altura:</b> y(t) = ∫v dt = (a/b)·ln cosh(b t) = 100·ln cosh(0,3192 t) m. En 15 s: <b>y(15) ≈ 409,5 m</b>.</p>
+      <p><b>Altura:</b> y(t) = ∫v dt = (a/b)·ln cosh(b t) = 100·ln cosh(0,3192 t) m. En 20 s: <b>y(20) ≈ 569,1 m</b> (y(15) ≈ 409,5 m).</p>
     </div>
     <div>
       <h3>Verificación por sustitución</h3>
@@ -147,7 +147,7 @@ n=2: v₃ = 19,341639 + (10,19 − 0,01·374,0990)
 n=3: v₄ = 25,790649 + (10,19 − 0,01·665,1576)
         = 29,329073 m/s
  …
-n=14: v₁₅ = 31,921671 m/s</pre>
+n=19: v₂₀ = 31,921779 m/s   (ver la tabla completa abajo)</pre>
     </div>
     <div>
       <p>Exactas: v(1) = 9,8574 · v(2) = 17,9986 · v(3) = 23,7252 · v(4) = 27,3138 m/s.</p>
@@ -155,6 +155,25 @@ n=14: v₁₅ = 31,921671 m/s</pre>
       <p>Es el mismo comportamiento que en el ejercicio 42, reflejado hacia arriba. Euler es de <b>orden 1</b>: al dividir h entre 2, el error se divide aproximadamente entre 2.</p>
     </div>
   </div>
+</section>
+
+<section id="pasos">
+  <h2><span class="num">5b</span> Euler paso a paso: velocidad y altura durante los 20 s</h2>
+  <p>Euler avanza <b>dos</b> ecuaciones a la vez, con paso h = 1 s:</p>
+  <div class="grid2">
+    <div>
+<pre><b>1) Aceleración (Newton):</b>  aₙ = E/m − g − (k/m)·vₙ² = 10,19 − 0,01·vₙ²
+<b>2) Velocidad:</b>             vₙ₊₁ = vₙ + h·aₙ
+<b>3) Altura:</b>                yₙ₊₁ = yₙ + h·vₙ</pre>
+      <p>En cada paso se miran las <b>fuerzas</b> en ese instante (empuje 100 N, peso 49,05 N y arrastre kv²), se calcula la aceleración y se supone que <b>no cambia durante todo el segundo</b>. Esa es la aproximación de Euler.</p>
+    </div>
+    <div>
+      <p><b>Cómo leer la tabla:</b> la columna F<sub>neta</sub> = E − mg − kv² = m·a muestra qué fuerza “sobra” para acelerar. Al despegar sobran 50,95 N. A medida que el cohete va más rápido el aire se lleva casi todo, hasta que F<sub>neta</sub> ≈ 0 y el cohete sube a velocidad constante.</p>
+    </div>
+  </div>
+  <div class="scroll" id="stepTable"></div>
+  <h3>Interpretación física por etapas</h3>
+  <div id="stepPhases"></div>
 </section>
 
 <section id="simulador">
@@ -171,7 +190,7 @@ n=14: v₁₅ = 31,921671 m/s</pre>
     <label>q · consumo de combustible <input id="q" type="number" value="0" min="0" step="0.05"><span class="unit">kg/s (0 = masa constante)</span></label>
     <label>k · arrastre <input id="k" type="number" value="0.05" min="0.001" step="0.005"><span class="unit">kg/m</span></label>
     <label>g · gravedad <input id="g" type="number" value="9.81" step="0.01"><span class="unit">m/s²</span></label>
-    <label>T · tiempo final <input id="T" type="number" value="15" step="1"><span class="unit">s</span></label>
+    <label>T · tiempo final <input id="T" type="number" value="20" step="1"><span class="unit">s</span></label>
     <label>h · paso de Euler <input id="h" type="number" value="1" step="0.1"><span class="unit">s</span></label>
     <label>h₂ · paso de comparación <input id="h2" type="number" value="0.1" step="0.05"><span class="unit">s</span></label>
   </div>
@@ -194,7 +213,7 @@ n=14: v₁₅ = 31,921671 m/s</pre>
       <p>Un cohete real <b>pierde masa</b>: m(t) = m₀ − q·t. La ecuación pasa a ser</p>
       <div class="formula">dv/dt = E/m(t) − g − (k/m(t))·v²</div>
       <p>y ya <b>no tiene una solución analítica sencilla</b>. Esta es la situación de la película: la ecuación se conoce, pero la fórmula no existe. Euler la resuelve igual, paso a paso. Como referencia se usa RK4 con un paso muy fino.</p>
-      <p>El modelo a escala quema q = 0,15 kg/s de combustible (2,25 kg en 15 s):</p>
+      <p>El modelo a escala quema q = 0,15 kg/s de combustible (3 kg en 20 s):</p>
       <div id="massTable"></div>
     </div>
     <div>
