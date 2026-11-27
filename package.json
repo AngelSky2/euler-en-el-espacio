@@ -1,0 +1,2 @@
+{ "name": "euler-en-el-espacio", "version": "1.0.0", "type": "module",
+  "scripts": { "test": "node tests/run-tests.mjs", "start": "python3 -m http.server 8080" }, "license": "MIT" }

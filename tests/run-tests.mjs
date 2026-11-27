@@ -1,0 +1,15 @@
+import { DEFAULTS as p, circularOrbit, reentry, terminalV } from "../js/orbit.js";
+let ok = 0, n = 0;
+const check = (name, c, info = "") => { n++; if (c) ok++; console.log(`${c ? "✔" : "✘"} ${name} ${info}`); };
+const e10 = circularOrbit(p, "euler", 10), e5 = circularOrbit(p, "euler", 5), r10 = circularOrbit(p, "rk4", 10);
+check("Periodo orbital ≈ 88.4 min a 200 km", Math.abs(e10.period / 60 - 88.35) < 0.1, (e10.period / 60).toFixed(2));
+check("Euler orden 1 en órbita (ratio ≈ 2)", Math.abs(e10.posErr / e5.posErr - 2) < 0.3, (e10.posErr / e5.posErr).toFixed(2));
+check("Euler gana energía", e10.dE > 0, e10.dE.toExponential(2));
+check("RK4 conserva la órbita (<10 m)", r10.posErr < 10, r10.posErr.toFixed(4) + " m");
+const ref = reentry(p, "rk4", 0.05, { store: false }), ref2 = reentry(p, "rk4", 0.1, { store: false });
+check("Referencia convergida (<1 m)", Math.abs(ref.final.range - ref2.final.range) < 1, Math.abs(ref.final.range - ref2.final.range).toFixed(4) + " m");
+check("Pico de g entre 6 y 12", ref.maxG > 6 && ref.maxG < 12, ref.maxG.toFixed(2));
+const eu = reentry(p, "euler", 0.02, { store: false });
+check("Euler h=0.02 error < 10 km", Math.abs(eu.final.range - ref.final.range) < 1e4, ((eu.final.range - ref.final.range) / 1e3).toFixed(2) + " km");
+check("v_T nivel del mar ≈ 72 m/s", Math.abs(terminalV(p, 0) - 71.9) < 0.5);
+console.log(`\n${ok}/${n} pruebas superadas`); process.exit(ok === n ? 0 : 1);
